@@ -61,5 +61,5 @@ app.post("/delete", function (req, res) {
 
 //abrir projeto dentro de qualquer porta.
 app.listen(3001, function () {
-  console.log("listening on port 3000.");
+  console.log("listening on port 3001.");
 });
