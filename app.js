@@ -1,6 +1,7 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+const { TestWatcher } = require("jest");
 var app = express();
 app.use(bodyParser.json());
 mongoose.connect("mongodb://localhost:27017/todolistDB");
@@ -27,15 +28,21 @@ app.post("/", (req, res) => {
   });
   item.save();
   res.json({ item })
-})
+});
+
+// atualiza item
+app.put("/item/:id", (req,res) => {
+  Item.findOneAndUpdate({_id: req.params.id}, {$set: req.body}, (err, doc) => {
+    if(err) res.json({sucesso: false})
+    return res.json(doc)
+  });
+});
 
 //deletar item.
 app.delete("/delete", (req, res) => {
-  Item.findByIdAndRemove(req.body.checkbox, (err) => {
-    if (!err) {
-      console.log("Successfully deleted");
-      res.redirect("/");
-    }
+  Item.findByIdAndRemove (req.body._id, (err, doc)=> {
+    if(err) res.json({sucesso: false})
+    return res.json(doc)
   });
 });
 
