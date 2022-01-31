@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const itemModel = require('./models/itemModel');
+
 const app = express();
 app.use(bodyParser.json());
 mongoose.connect("mongodb://localhost:27017/todolistDB");
@@ -10,19 +12,10 @@ app.listen(3002, () => {
   console.log("listening on port 3002.");
 });
 
-// Criando Schema.
-const itemSchema = {
-  name: String,
-  status: Boolean
-};
-
-// Iniciamos a model.
-const Item = mongoose.model("Item", itemSchema);
-
 // Retorna todos os itens.
 app.get("/item", async (req, res) => {
   try {
-    const item = await Item.find({});
+    const item = await itemModel.find({});
     res.send(item);
   } catch (error) {
     res.statuss(400).json({
@@ -36,7 +29,7 @@ app.get("/item", async (req, res) => {
 app.get("/item/:id", async (req, res) => {
   const idItem = req.params.id;
   try {
-    const item = await Item.findById(idItem)
+    const item = await itemModel.findById(idItem)
     res.send(item);
   } catch (error) {
     res.status(400).json({
@@ -69,7 +62,7 @@ app.put("/item/:id", async (req, res) => {
   const idItem = req.params.id;
   const item = req.body;
   try {
-    const itemUpdated = await Item.findByIdAndUpdate(idItem, item);
+    const itemUpdated = await itemModel.findByIdAndUpdate(idItem, item);
     res.send(itemUpdated);
   } catch (error) {
     res.status(400).json({
@@ -83,7 +76,7 @@ app.put("/item/:id", async (req, res) => {
 app.delete("/item/:id", async (req, res) => {
   const idItem = req.params.id;
   try {
-    const item = await Item.findByIdAndRemove(idItem);
+    const item = await itemModel.findByIdAndRemove(idItem);
     res.send(item);
   } catch (error) {
     res.status(400).json({
