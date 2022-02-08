@@ -42,7 +42,7 @@ app.get("/item/:id", async (req, res) => {
 // cria um novo item.
 app.post("/item", async (req, res) => {
   const idData = req.body;
-  const item = new Item({
+  const item = new itemModel({
     name: idData.name,
     status: idData.status
   });
