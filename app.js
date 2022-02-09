@@ -18,7 +18,7 @@ app.listen(3002, () => {
 // Retorna todos os itens.
 app.get("/item", async (req, res) => {
   try {
-    const item = await itemModel.find({});
+    const item = await itemModel.find({}).sort({_id: 'desc'});
     res.send(item);
   } catch (error) {
     res.statuss(400).json({
