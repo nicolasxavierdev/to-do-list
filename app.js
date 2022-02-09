@@ -1,9 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const itemModel = require('./models/itemModel');
 
 const app = express();
+app.use(cors());
+
 app.use(bodyParser.json());
 mongoose.connect("mongodb://localhost:27017/todolistDB");
 
